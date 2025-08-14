@@ -267,13 +267,12 @@ function monteCarloSimulation(initial, mu, sigma, years, withdrawalMethod, withd
             const u2 = Math.random();
             const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
             
-            // Geometric Brownian Motion
-            const drift = (mu - 0.5 * sigma * sigma) * dt;
-            const diffusion = sigma * Math.sqrt(dt) * z;
-            const returnRate = Math.exp(drift + diffusion);
+            // Simple annual return model: return = mu + sigma * z
+            // This gives us the annual return as a percentage
+            const annualReturn = mu + sigma * z;
             
             // Apply returns first
-            value = value * returnRate;
+            value = value * (1 + annualReturn);
             
             // Then apply withdrawal at end of year (only if we've reached the withdrawal start year)
             let withdrawal = 0;
